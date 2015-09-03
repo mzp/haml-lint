@@ -21,6 +21,9 @@ module HamlLint
       # the user intends to not recurse further, or wanted full control over
       # when the children were visited).
       visit_children(node) unless block_called
+
+      method = "after_visit_#{node_name(node)}"
+      send(method, node, &block) if respond_to?(method, true)
     end
 
     def visit_children(parent)
